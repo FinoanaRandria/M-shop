@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useForm} from 'react-hook-form'
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
@@ -15,103 +16,38 @@ const SignUp = () => {
   // ============= Initial State End here ===============
 
 
-  //============Post Via axios  Start here===========
-  axios.post('http://localhost:3002/api/register',{})
-.then((response)=>{
-   console.log(response);
-})
-.catch((err)=>{
-   console.log(err);
-})
 
-//=============Post Via axios End here==============
+  const {handleSubmit,register} = useForm()
+   
+
+
+  const onSubmit = (data)=>{
+
+      //============Post Via axios  Start here===========
+  axios.post('http://localhost:3002/api/register',data)
+  .then((response)=>{
+     console.log(response);
+  })
+  .catch((err)=>{
+     console.log(err);
+  })
+  
+  //=============Post Via axios ============
+   console.log(data);
+
+  }
+
+
+
 
 
 
 
   // ============= Error Msg Start here =================
-  /* const [errClientName, setErrClientName] = useState("");
-  const [errEmail, setErrEmail] = useState("");
-  const [errPhone, setErrPhone] = useState("");
-  const [errPassword, setErrPassword] = useState("");
-  const [errAddress, setErrAddress] = useState("");
-  const [errCity, setErrCity] = useState("");
-  const [errCountry, setErrCountry] = useState("");
-  const [errZip, setErrZip] = useState(""); */
+ 
   // ============= Error Msg End here ===================
   const [successMsg] = useState("");
-  // ============= Event Handler Start here =============
- 
-  // ============= Event Handler End here ===============
-  // ================= Email Validation start here =============
-  /* const EmailValidation = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-  };
-  // ================= Email Validation End here ===============
-
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    if (checked) {
-      if (!clientName) {
-        setErrClientName("Enter your name");
-      }
-      if (!email) {
-        setErrEmail("Enter your email");
-      } else {
-        if (!EmailValidation(email)) {
-          setErrEmail("Enter a Valid email");
-        }
-      }
-      if (!phone) {
-        setErrPhone("Enter your phone number");
-      }
-      if (!password) {
-        setErrPassword("Create a password");
-      } else {
-        if (password.length < 6) {
-          setErrPassword("Passwords must be at least 6 characters");
-        }
-      }
-      if (!address) {
-        setErrAddress("Enter your address");
-      }
-      if (!city) {
-        setErrCity("Enter your city name");
-      }
-      if (!country) {
-        setErrCountry("Enter the country you are residing");
-      }
-      if (!zip) {
-        setErrZip("Enter the zip code of your area");
-      } */
-      // ============== Getting the value ==============
-  /*     if (
-        clientName &&
-        email &&
-        EmailValidation(email) &&
-        password &&
-        password.length >= 6 &&
-        address &&
-        city &&
-        country &&
-        zip
-      ) {
-        setSuccessMsg(
-          `Hello dear ${clientName}, Welcome you to M-shop Admin panel. We received your Sign up request. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-        );
-        setClientName("");
-        setEmail("");
-        setPhone("");
-        setPassword("");
-        setAddress("");
-        setCity("");
-        setCountry("");
-        setZip("");
-      } */
-  /*   }
-  }; */
+  
   return (
     <div className="w-full h-screen flex items-center justify-start">
       <div className="w-1/2 hidden lgl:inline-flex h-full text-white">
@@ -196,7 +132,7 @@ const SignUp = () => {
             </Link>
           </div>
         ) : (
-          <form className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
             <div className="px-6 py-4 w-full h-[96%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
               <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
                 Create your account
@@ -208,7 +144,7 @@ const SignUp = () => {
                     Full Name
                   </p>
                   <input
-                 
+                      {...register("nom")}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
                     placeholder="your fullname"
@@ -226,7 +162,7 @@ const SignUp = () => {
                      Email
                   </p>
                   <input
-                  
+                    {...register("email")}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
                     placeholder="your email"
@@ -244,7 +180,7 @@ const SignUp = () => {
                     Phone Number
                   </p>
                   <input
-                   
+                    {...register('telephone')}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
                     placeholder="your phone Number"
@@ -262,7 +198,7 @@ const SignUp = () => {
                     Password
                   </p>
                   <input
-                   
+                    {...register("password")}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="password"
                     placeholder="Create password"
@@ -280,7 +216,7 @@ const SignUp = () => {
                     Address
                   </p>
                   <input
-                   
+                    {...register('address')}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
                     placeholder="road-001, house-115, example area"
@@ -298,7 +234,7 @@ const SignUp = () => {
                     City
                   </p>
                   <input
-                 
+                      {...register('ville')}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
                     placeholder="Your city"
@@ -316,7 +252,7 @@ const SignUp = () => {
                     Country
                   </p>
                   <input
-                   
+                    {...register('pays')}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
                     placeholder="Your country"
@@ -334,10 +270,10 @@ const SignUp = () => {
                     Zip/Postal code
                   </p>
                   <input
-                  
+                   {...register('codePostal')}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
-                    placeholder="Your country"
+                    placeholder="Your Code Postal"
                   />
                  {/*  {errZip && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -360,7 +296,7 @@ const SignUp = () => {
                   </p>
                 </div>
                 <button
-                 /*  onClick={handleSignUp} */
+                 type="submit"
                   className={`${
                     checked
                       ? "bg-primeColor hover:bg-black hover:text-white cursor-pointer"

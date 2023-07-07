@@ -10,16 +10,16 @@ exports.register = (req, res) => {
   console.log(req.body);
   const date = new Date()
   const formattedDate = date.toISOString().slice(0, 19).replace('T', ' '); 
-   const {firstRegister,lastNameRegister,emailRegister,adresseRegister,passwordRegister} =req.body
+   const {nom,email,telephone,password,address,ville,pays,codePostal} =req.body
    console.log(req.body);
-  bcrypt.hash(passwordRegister, saltRounds, (err, hash) => {
+  bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
       console.log(err);
     }
 
     con.query(
-      "INSERT INTO user (id,email,password,type,prenom,nom,adresse,date) VALUES(?,?,?,?,?,?,?,?)",
-      [null,emailRegister, hash,'client',firstRegister,lastNameRegister,adresseRegister,formattedDate],
+      "INSERT INTO user (id,email,password,type,nom,adresse,date,pays,codePostal,ville,telephone) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+      [null,email, hash,'client',nom,address,formattedDate,pays,codePostal,ville,telephone],
       (err, result) => {
         console.log(err);
       }
