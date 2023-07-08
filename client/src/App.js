@@ -22,6 +22,7 @@ import Offer from "./pages/Offer/Offer";
 import Payment from "./pages/payment/Payment";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Shop from "./pages/Shop/Shop";
+import Admin from "./pages/Admin/Admin";
 
 const Layout = () => {
   return (
@@ -39,6 +40,8 @@ const Layout = () => {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
+        
+
       <Route path="/" element={<Layout />}>
         {/* ==================== Header Navlink eto tolotra =================== */}
         <Route index element={<Home />}></Route>
@@ -54,6 +57,8 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/signin" element={<SignIn />}></Route>
+
+      <Route path="/admin" element={<Admin/>}></Route>
     </Route>
   )
 );
