@@ -52,12 +52,11 @@ const Product = ({data}) => {
                 dispatch(
                   addToCart({
                     _id: data._id,
-                    name: data.productName,
+                    name: data.name,
                     quantity: 1,
-                    image: data.img,
-                    badge: data.badge,
+                    image: `http://localhost:3002/file/${data.image}`,
                     price: data.prix,
-                    colors: data.color,
+                    categori: data.categorie,
                   })
                 )
               }
@@ -92,10 +91,10 @@ const Product = ({data}) => {
             {data.name}
           </h2>
           <p className="text-[#767676] text-[14px]">{data.prix} Ar</p>
-        </div>{/* 
+        </div>
         <div>
-          <p className="text-[#767676] text-[14px]">{props.color}</p>
-        </div> */}
+          <p className="text-[#767676] text-[14px]">{data.categorie}</p>
+        </div> 
       </div>
     </div>
   );
