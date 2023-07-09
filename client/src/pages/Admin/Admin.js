@@ -4,7 +4,7 @@ const Admin = () => {
   return (
     <div>
       <Sidebar/>
-
+       
     </div>
   )
 }
