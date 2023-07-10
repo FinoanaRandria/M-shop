@@ -28,7 +28,6 @@ const Layout = () => {
   return (
     <div>
       <Header />
-      <HeaderBottom />
       <SpecialCase />
       <ScrollRestoration />
       <Outlet />

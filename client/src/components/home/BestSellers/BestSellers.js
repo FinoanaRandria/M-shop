@@ -1,89 +1,66 @@
-import React,{useState,useEffect} from "react";
-import Cookies from "js-cookie";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Heading from "../Products/Heading";
 import Product from "../Products/Product";
-import {
-  bestSellerOne,
-  bestSellerTwo,
-  bestSellerThree,
-  bestSellerFour,
-} from "../../../assets/images/index";
+import Category from "../Category/Category";
+import SearchBar from "../SearchBar/SearchBar";
+import ProfilBar from "../ProfilBar/ProfilBar";
+import Flex from "../../designLayouts/Flex";
 
 const BestSellers = () => {
+  const [allProducts, setAllProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const [Search, setSearch] = useState('');
-  const [filterSearch, setFilterSearch] = useState([]);
-  const [selectedCategoryProducts, setSelectedCategoryProducts] = useState([]);
-  const [produitData, setProduitData] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    // Effectue la vérification de l'authentification et met à jour l'état
-    const checkAuthentication = async () => {
-      const authToken = Cookies.get('token_jwt');
-      setIsLoggedIn(!!authToken);
-    };
-
-    // Vérifie l'authentification après la récupération des données
-    const fetchData = async () => {
-      try {
-        const result = await axios.get('http://localhost:3002/user/getAll');
-        setProduitData(result.data.data);
-        await checkAuthentication(); // Vérifie l'authentification après la récupération des données
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData(); // Appelle la fonction pour récupérer les données
+    fetchProducts();
   }, []);
-  
+
+  async function fetchProducts() {
+    try {
+      const result = await axios.get("http://localhost:3002/user/getAll");
+      setAllProducts(result.data.data);
+      setFilteredProducts(result.data.data);
+    } catch (error) {
+      console.log("Erreur lors du chargement des produits :", error);
+    }
+  }
+
+  function handleCategoryClick(category) {
+    setSelectedCategory(category);
+    filterProducts(category);
+  }
+
+  function filterProducts(category) {
+    if (category) {
+      const filtered = allProducts.filter(
+        (product) => product.categorie.toLowerCase() === category.toLowerCase()
+      );
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(allProducts);
+    }
+  }
+
   return (
-    <div className="w-full pb-20">
-      <Heading heading="Our Bestsellers" />
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
-      
-          {produitData.map((product) => (
+    <div>
+      <div className="w-full bg-[#F5F5F3] relative">
+        <div className="max-w-container mx-auto">
+          <Flex className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
+            <Category handleCategoryClick={handleCategoryClick} />
+            <SearchBar />
+            <ProfilBar />
+          </Flex>
+        </div>
+      </div>
+      <div className="w-full pb-20">
+        <Heading heading="Nos Meilleures Ventes" />
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
+          {filteredProducts.map((product) => (
             <Product key={product._id} data={product} />
           ))}
-        
-        {/* <Product
-          _id="1011"
-          img={bestSellerOne}
-          productName="Flower Base"
-          price="35.00"
-          color="Blank and White"
-          badge={true}
-          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        />
-        <Product
-          _id="1012"
-          img={bestSellerTwo}
-          productName="New Backpack"
-          price="180.00"
-          color="Gray"
-          badge={false}
-          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        />
-        <Product
-          _id="1013"
-          img={bestSellerThree}
-          productName="Household materials"
-          price="25.00"
-          color="Mixed"
-          badge={true}
-          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        />
-        <Product
-          _id="1014"
-          img={bestSellerFour}
-          productName="Travel Bag"
-          price="220.00"
-          color="Black"
-          badge={false}
-          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        />*/}
-      </div> 
+        </div>
+      </div>
     </div>
   );
 };

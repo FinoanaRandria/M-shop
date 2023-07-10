@@ -9,13 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/orebiSlice";
 
-const Product = ({data}) => {
+const Product = ({data,props}) => {
   const dispatch = useDispatch();
-/* 
-  const handleToPanier = (item_data) => {
-    Dispatch(addToPanier(item_data))
-  } */
-  /* const _id = props.productName;
+  const _id = data.name;
   const idString = (_id) => {
     return String(_id).toLowerCase().split(" ").join("");
   };
@@ -29,16 +25,13 @@ const Product = ({data}) => {
         item: productItem,
       },
     });
-  }; */
+  };                    
   return (
     <div className="w-full relative group">
       <div className="max-w-80 max-h-80 relative overflow-y-hidden ">
         <div>
           <Image className="w-full h-full" imgSrc={`http://localhost:3002/file/${data.image}`}/>
-        </div>{/* 
-        <div className="absolute top-6 left-8">
-          {props.badge && <Badge text="New" />}
-        </div> */}
+        </div>
         <div className="w-full h-32 absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700">
           <ul className="w-full h-full flex flex-col items-end justify-center gap-2 font-titleFont px-2 border-l border-r">
             <li className="text-[#767676] hover:text-primeColor text-sm font-normal border-b-[1px] border-b-gray-200 hover:border-b-primeColor flex items-center justify-end gap-2 hover:cursor-pointer pb-1 duration-300 w-full">
@@ -68,7 +61,7 @@ const Product = ({data}) => {
               </span>
             </li>
             <li
-              /* onClick={handleProductDetails} */
+               onClick={handleProductDetails} 
               className="text-[#767676] hover:text-primeColor text-sm font-normal border-b-[1px] border-b-gray-200 hover:border-b-primeColor flex items-center justify-end gap-2 hover:cursor-pointer pb-1 duration-300 w-full"
             >
               View Details
