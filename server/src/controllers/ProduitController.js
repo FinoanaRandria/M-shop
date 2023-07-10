@@ -1,51 +1,51 @@
-var userService = require('../user/Service');
+var produitService = require('./Service');
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 
-var getDataConntrollerfn = async (req, res) => {
-  var empolyee = await userService.getDataFromDBService();
+var getProduitControllerfn = async (req, res) => {
+  var empolyee = await produitService.getProduitFromDBService();
   res.send({ "status": true, "data": empolyee });
 }
 
-var createUserControllerFn = async (req, res) => {
+var createproduitControllerFn = async (req, res) => {
   try {
-    var userDetails = req.body;
-    userDetails.image = req.file.filename;
+    var produitDetails = req.body;
+    produitDetails.image = req.file.filename;
 
-    var status = await userService.createUserDBService(userDetails);
+    var status = await produitService.createproduitDBService(produitDetails);
 
     if (status) {
-      res.send({ "status": true, "message": "User created successfully" });
+      res.send({ "status": true, "message": "produit created successfully" });
     } else {
-      res.send({ "status": false, "message": "Error creating user" });
+      res.send({ "status": false, "message": "Error creating produit" });
     }
   } catch (error) {
     console.error(error);
-    res.send({ "status": false, "message": "Error creating user" });
+    res.send({ "status": false, "message": "Error creating produit" });
   }
 }
 
-var updateUserController = async (req, res) => {
+var updateproduitController = async (req, res) => {
   console.log(req.params.id);
   console.log(req.body);
 
-  var result = await userService.updateUserDBService(req.params.id, req.body);
+  var result = await produitService.updateproduitDBService(req.params.id, req.body);
 
   if (result) {
-    res.send({ "status": true, "message": "User Updated" });
+    res.send({ "status": true, "message": "produit Updated" });
   } else {
-    res.send({ "status": false, "message": "User Update Failed" });
+    res.send({ "status": false, "message": "produit Update Failed" });
   }
 }
 
-var deleteUserController = async (req, res) => {
+var deleteproduitController = async (req, res) => {
   console.log(req.params.id);
-  var result = await userService.removeUserDBService(req.params.id);
+  var result = await produitService.removeproduitDBService(req.params.id);
   if (result) {
-    res.send({ "status": true, "message": "User Deleted" });
+    res.send({ "status": true, "message": "produit Deleted" });
   } else {
-    res.send({ "status": false, "message": "User Deletion Failed" });
+    res.send({ "status": false, "message": "produit Deletion Failed" });
   }
 }
 
-module.exports = { getDataConntrollerfn, createUserControllerFn, updateUserController, deleteUserController };
+module.exports = { getProduitControllerfn, createproduitControllerFn, updateproduitController, deleteproduitController };

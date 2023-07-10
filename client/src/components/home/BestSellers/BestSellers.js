@@ -18,7 +18,7 @@ const BestSellers = () => {
 
   async function fetchProducts() {
     try {
-      const result = await axios.get("http://localhost:3002/user/getAll");
+      const result = await axios.get("http://localhost:3002/produit/getAll");
       setAllProducts(result.data.data);
       setFilteredProducts(result.data.data);
     } catch (error) {

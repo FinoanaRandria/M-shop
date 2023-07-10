@@ -66,7 +66,7 @@ const SearchBar = ({ handleCategoryClick }) => {
     setSearchQuery(e.target.value);
     try {
       const result = await axios.get(
-        `http://localhost:3002/user/getAll?searchQuery=${e.target.value}`
+        `http://localhost:3002/produit/getAll?searchQuery=${e.target.value}`
       );
       const filteredProducts = result.data.data.filter((item) =>
         item.name.toLowerCase().includes(e.target.value.toLowerCase())

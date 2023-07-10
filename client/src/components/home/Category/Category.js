@@ -13,7 +13,7 @@ const Category = ({ handleCategoryClick }) => {
 
   async function loadProduits() {
     try {
-      const result = await axios.get("http://localhost:3002/user/getAll");
+      const result = await axios.get("http://localhost:3002/produit/getAll");
       const categories = result.data.data.map(
         (produit) => produit.categorie.toLowerCase()
       );

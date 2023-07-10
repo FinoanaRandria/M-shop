@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/multerConfig');
-const userController = require('../controllers/ProduitController');
+const produitController = require('../controllers/ProduitController');
 
 
-router.route('/user/getAll').get(userController.getDataConntrollerfn);
+router.route('/produit/getAll').get(produitController.getProduitControllerfn);
 
-router.route('/user/create').post(upload.single('image'), userController.createUserControllerFn);
+router.route('/produit/create').post(upload.single('image'), produitController.createproduitControllerFn);
 
-router.route('/user/update/:id').patch(userController.updateUserController);
+router.route('/produit/update/:id').patch(produitController.updateproduitController);
 
-router.route('/user/delete/:id').delete(userController.deleteUserController);
+router.route('/produit/delete/:id').delete(produitController.deleteproduitController);
 
 module.exports = router;
