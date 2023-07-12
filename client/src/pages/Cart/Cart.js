@@ -1,15 +1,59 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import { resetCart } from "../../redux/orebiSlice";
 import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
 
-const Cart = () => {
-  const dispatch = useDispatch();
+const Cart = ({item}) => {
   const products = useSelector((state) => state.orebiReducer.products);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [id, setId] = useState();
+  const [nom, setNom] = useState();
+  const [email, setEmail] = useState();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3002/api/login")
+      .then((response) => {
+        const data = response.data;
+        console.log("Données de l'API :", data);
+        setNom(data.user[0].nom);
+        setEmail(data.user[0].email);
+        setId(data.user[0].id); // Mettre à jour l'ID à partir de la réponse de l'API
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des données de l'API :", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log("ID mis à jour :", id);
+    console.log("Nom:", nom);
+    console.log("Email:", email);
+  }, [id, nom, email]);
+
+  const notify = () => {
+    // Envoyez les données du panier au serveur via une requête POST
+    axios
+      .post(`http://localhost:3002/commande/commande/${id}/${nom}/${email}`, { panierDatas: products })
+      .then((response) => {
+        toast.success("Paiement réussi");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+        dispatch({ type: "EMPTY_PANIER" }); // Vider le panier
+      })
+      .catch((error) => {
+        toast.error("Erreur lors du paiement");
+        console.error("Erreur lors du paiement : ", error);
+      });
+  };
   const [totalAmt, setTotalAmt] = useState("");
   const [shippingCharge, setShippingCharge] = useState("");
   useEffect(() => {
@@ -35,10 +79,10 @@ const Cart = () => {
       {products.length > 0 ? (
         <div className="pb-20">
           <div className="w-full h-20 bg-[#F5F7F7] text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
-            <h2 className="col-span-2">Product</h2>
-            <h2>Price</h2>
-            <h2>Quantity</h2>
-            <h2>Sub Total</h2>
+            <h2 className="col-span-2">Produit</h2>
+            <h2>Prix</h2>
+            <h2>Quantite</h2>
+            <h2>Sous Total</h2>
           </div>
           <div className="mt-5">
             {products.map((item) => (
@@ -73,28 +117,28 @@ const Cart = () => {
               <h1 className="text-2xl font-semibold text-right">Cart totals</h1>
               <div>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
-                  Subtotal
+                  Sous total
                   <span className="font-semibold tracking-wide font-titleFont">
-                    ${totalAmt}
+                    Ar{totalAmt}
                   </span>
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
-                  Shipping Charge
+                Frais d'expédition
                   <span className="font-semibold tracking-wide font-titleFont">
-                    ${shippingCharge}
+                    Ar{shippingCharge}
                   </span>
                 </p>
                 <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
                   Total
                   <span className="font-bold tracking-wide text-lg font-titleFont">
-                    ${totalAmt + shippingCharge}
+                    Ar{totalAmt + shippingCharge}
                   </span>
                 </p>
               </div>
               <div className="flex justify-end">
                 <Link to="/paymentgateway">
-                  <button className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
-                    Proceed to Checkout
+                  <button  onClick={() => dispatch(resetCart())} className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
+                  Passer à la caisse
                   </button>
                 </Link>
               </div>

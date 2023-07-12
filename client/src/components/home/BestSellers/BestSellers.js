@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Heading from "../Products/Heading";
@@ -18,7 +19,7 @@ const BestSellers = () => {
 
   async function fetchProducts() {
     try {
-      const result = await axios.get("http://localhost:3002/produit/getAll");
+      const result = await axios.get("http://localhost:3002/produit");
       setAllProducts(result.data.data);
       setFilteredProducts(result.data.data);
     } catch (error) {
@@ -53,9 +54,9 @@ const BestSellers = () => {
           </Flex>
         </div>
       </div>
-      <div className="w-full pb-20">
+      <div className="w-full pb-16">
         <Heading heading="Nos Meilleures Ventes" />
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
+        <div className="w-full grid grid-cols-1 md:grid-cols-4 lgl:grid-cols-5 xl:grid-cols-3 gap-10">
           {filteredProducts.map((product) => (
             <Product key={product._id} data={product} />
           ))}

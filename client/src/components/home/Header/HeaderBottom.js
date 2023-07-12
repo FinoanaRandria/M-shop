@@ -16,7 +16,7 @@ const HeaderBottom = () => {
 
   async function fetchProducts() {
     try {
-      const result = await axios.get("http://localhost:3002/produit/getAll");
+      const result = await axios.get("http://localhost:3002/produit");
       setAllProducts(result.data.data);
     } catch (error) {
       console.log("Erreur lors du chargement des produits :", error);

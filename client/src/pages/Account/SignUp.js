@@ -4,7 +4,7 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
 import axios from 'axios'
-
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -19,6 +19,7 @@ const SignUp = () => {
 
   const {handleSubmit,register} = useForm()
    
+  const navigate = useNavigate()
 
 
   const onSubmit = (data)=>{
@@ -37,7 +38,11 @@ const SignUp = () => {
 
   }
 
+const handleNavigate = ()=>{
+   
+    navigate('/signin')
 
+}
 
 
 
@@ -57,9 +62,9 @@ const SignUp = () => {
           </Link>
           <div className="flex flex-col gap-1 -mt-1">
             <h1 className="font-titleFont text-xl font-medium">
-              Get started for free
+            Commencer gratuitement
             </h1>
-            <p className="text-base">Create your account to access more</p>
+            <p className="text-base">Créez votre compte pour en savoir plus</p>
           </div>
           <div className="w-[300px] flex items-start gap-3">
             <span className="text-green-500 mt-1">
@@ -67,11 +72,10 @@ const SignUp = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Get started fast with M-Shop
+              Démarrez rapidement avec M-Shop
               </span>
               <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
+              Faclie et Simple a utiliser!
             </p>
           </div>
           <div className="w-[300px] flex items-start gap-3">
@@ -80,11 +84,10 @@ const SignUp = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Access all M-Shop services
+              Accéder à tous les services M-Shop
               </span>
               <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
+              Utiliser nos services facillement pour vos achats en ligne
             </p>
           </div>
           <div className="w-[300px] flex items-start gap-3">
@@ -93,11 +96,10 @@ const SignUp = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Trusted by online Shoppers
+              La confiance des acheteurs en ligne
               </span>
               <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
+              Plus de 5 millions d'utilisateur par jours
             </p>
           </div>
           <div className="flex items-center justify-between mt-10">
@@ -135,13 +137,13 @@ const SignUp = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
             <div className="px-6 py-4 w-full h-[96%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
               <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
-                Create your account
+              Créez votre compte
               </h1>
               <div className="flex flex-col gap-3">
                 {/* client name */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Full Name
+                  Nom
                   </p>
                   <input
                       {...register("nom")}
@@ -177,7 +179,7 @@ const SignUp = () => {
                 {/* Phone Number */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Phone Number
+                  Numéro de téléphone
                   </p>
                   <input
                     {...register('telephone')}
@@ -231,7 +233,7 @@ const SignUp = () => {
                 {/* City */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    City
+                  Ville
                   </p>
                   <input
                       {...register('ville')}
@@ -249,7 +251,7 @@ const SignUp = () => {
                 {/* Country */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Country
+                    Pays
                   </p>
                   <input
                     {...register('pays')}
@@ -290,13 +292,14 @@ const SignUp = () => {
                     type="checkbox"
                   />
                   <p className="text-sm text-primeColor">
-                    I agree to the M-ShopI{" "}
+                  Je suis d'accord avec le M-Shop{" "}
                     <span className="text-blue-500">Terms of Service </span>and{" "}
                     <span className="text-blue-500">Privacy Policy</span>.
                   </p>
                 </div>
                 <button
                  type="submit"
+                 onClick={handleNavigate}
                   className={`${
                     checked
                       ? "bg-primeColor hover:bg-black hover:text-white cursor-pointer"
@@ -306,7 +309,7 @@ const SignUp = () => {
                   Create Account
                 </button>
                 <p className="text-sm text-center font-titleFont font-medium">
-                  Don't have an Account?{" "}
+                Vous n'avez pas encore de compte ?{" "}
                   <Link to="/signin">
                     <span className="hover:text-blue-600 duration-300">
                       Sign in

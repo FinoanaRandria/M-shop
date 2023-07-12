@@ -20,14 +20,17 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
- 
+import { Link ,useNavigate} from "react-router-dom";
 export default function Sidebar() {
   const [open, setOpen] = React.useState(0);
- 
+  const navigate = useNavigate();
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
- 
+  const handleLogOut = () => {
+    localStorage.clear();
+    navigate("/signin");
+  }
   return (
     <Card className="fixed top-4 left-4 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/4">
       <div className="mb-2 p-4">
@@ -61,7 +64,7 @@ export default function Sidebar() {
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
-                Analytics
+                <Link to="/admin/gestion-user">Gestion-User </Link>
               </ListItem>
               <ListItem>
                 <ListItemPrefix>
@@ -103,13 +106,13 @@ export default function Sidebar() {
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
-                Orders
+                <Link to="/admin/orders">listes Produits</Link>
               </ListItem>
               <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
-                Products
+                <Link to="/admin/gestion-product">Gestion Produits</Link>
               </ListItem>
             </List>
           </AccordionBody>
@@ -136,7 +139,7 @@ export default function Sidebar() {
           </ListItemPrefix>
           Settings
         </ListItem>
-        <ListItem>
+        <ListItem onClick={handleLogOut}>
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>

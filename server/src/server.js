@@ -3,6 +3,7 @@ const cors = require("cors");
 const session = require('express-session');
 const bodyparser = require("body-parser");
 const authRoute = require("./routes/route.auth");
+const favoriteRoute = require("./routes/route.favorite")
 const routes = require('./routes/routes');
 const produitRoute = require('./routes/route.produits')
 require("dotenv").config();
@@ -32,6 +33,8 @@ app.use('/file',express.static('./uploads'))
 app.use(routes);
 app.use("/api", authRoute);
 app.use("/api/product",produitRoute)
+app.use("/api/favorite",favoriteRoute)
+
 app.listen(expressport, () => {
   console.log(`Server is running on port ${expressport}`);
 });

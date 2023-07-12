@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import { paginationItems } from "../../../constants";
 import Category from "../Category/Category";
 import SearchBar from "../SearchBar/SearchBar";
-
 const ProfilBar = ({handleCategoryClick}) => {
 
   const [produits, setProduits] = useState([]);
@@ -69,7 +68,13 @@ const ProfilBar = ({handleCategoryClick}) => {
     );
     setFilteredProducts(filtered);
   }, [searchQuery]);
- /* static */
+  //fonction deconnexion
+       const handlelogout = ()=>{
+           localStorage.clear()
+       navigate('/signin')
+       }
+  /* static */
+
   return (
         <div className="flex gap-4 mt-2 lg:mt-0 items-center pr-6 cursor-pointer relative">
             <div onClick={() => setShowUser(!showUser)} className="flex">
@@ -83,21 +88,12 @@ const ProfilBar = ({handleCategoryClick}) => {
                 transition={{ duration: 0.5 }}
                 className="absolute top-6 left-0 z-50 bg-primeColor w-44 text-[#767676] h-auto p-4 pb-6"
               >
-                <Link to="/signin">
-                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                    Login
+                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400  hover:border-b-white hover:text-white duration-300 cursor-pointer">
+                    Profile
                   </li>
-                </Link>
-                <Link onClick={() => setShowUser(false)} to="/signup">
-                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                    Sign Up
-                  </li>
-                </Link>
-                <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                  Profile
-                </li>
-                <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400  hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                  Others
+               
+                <li onClick={handlelogout} className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400  hover:border-b-white hover:text-white duration-300 cursor-pointer">
+                  Logout
                 </li>
               </motion.ul>
             )}

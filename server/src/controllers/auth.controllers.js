@@ -36,10 +36,12 @@ exports.login = (req, res) => {
 
   
 
-  con.query("SELECT * FROM user WHERE email=? ", email, (err, result) => {
+  con.query("SELECT * FROM user WHERE email=?", email, (err, result) => {
     if (err) {
+      console.log(err);
       req.setEncoding({ err: err });
     }
+    console.log(result);
      
     if (result) {
       bcrypt.compare(password, result[0].password, (err, reponse) => {
@@ -49,10 +51,15 @@ exports.login = (req, res) => {
             res.status(200).json({
               /* add token */
                token:jswt.sign({
-                   nom:result[0].mom,
+                  /* user:result[0] */
+                  nom:result[0].nom,
                    type:result[0].type,
                    email:result[0].email
                },process.env.jwtkey)
+
+               /* nom:result[0].mom,
+                   type:result[0].type,
+                   email:result[0].email */
             })
 
         } else {
@@ -76,6 +83,7 @@ exports.loged = (req,res)=>{
 }
 
 exports.getUerRole = (req, res) => {
+  //console.log(req.headers.authorization);
   let authorization = req.headers.authorization.replace("bearer= ",'');
 
   let cookie_parsing = jswt.verify(authorization,process.env.jwtkey);
@@ -112,4 +120,18 @@ exports.deleteUser = (req,res)=>{
       }
     })
     
+}
+
+exports.getUserById = (userId)=>{
+  
+   con.query(`SELECT * FROM user WHERE id=${userId}`,(err,result)=>{
+       
+       if(result){
+          return result;
+        }else{
+          console.log("tsisy ninin")
+        }
+
+  })
+   
 }

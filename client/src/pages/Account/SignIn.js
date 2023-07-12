@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const SignIn = () => {
+
+  const navigate =useNavigate()
   // ============= Initial State Start here =============
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,21 +30,21 @@ const SignIn = () => {
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    if (!email) {
-      setErrEmail("Enter your email");
-    }
+    axios.post('http://localhost:3002/api/login',{
+      email,password
+    })
+  .then((response)=>{
 
-    if (!password) {
-      setErrPassword("Create a password");
-    }
-    // ============== Getting the value ==============
-    if (email && password) {
-      setSuccessMsg(
-        `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-      );
-      setEmail("");
-      setPassword("");
-    }
+
+
+    localStorage.setItem(`token`,response.data.token)
+    window.location.reload()
+     console.log(response);
+  })
+  .catch((err)=>{
+     console.log(err);
+  })
+  
   };
   return (
     <div className="w-full h-screen flex items-center justify-center">
@@ -52,9 +55,9 @@ const SignIn = () => {
           </Link>
           <div className="flex flex-col gap-1 -mt-1">
             <h1 className="font-titleFont text-xl font-medium">
-              Stay sign in for more
+            Restez connecté pour en savoir plus
             </h1>
-            <p className="text-base">When you sign in, you are with us!</p>
+            <p className="text-base">Lorsque vous vous connectez, vous êtes avec nous !</p>
           </div>
           <div className="w-[300px] flex items-start gap-3">
             <span className="text-green-500 mt-1">
@@ -62,11 +65,10 @@ const SignIn = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Get started fast with M-Shop
+              Démarrer rapidement avec M-Shop
               </span>
               <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
+              Facile et Simple a prendre en main
             </p>
           </div>
           <div className="w-[300px] flex items-start gap-3">
@@ -75,11 +77,10 @@ const SignIn = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Access all M-Shop services
+              Accéder à tous les services M-Shop
               </span>
               <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
+              Accédez a nos services gratuitement
             </p>
           </div>
           <div className="w-[300px] flex items-start gap-3">
@@ -88,11 +89,10 @@ const SignIn = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Trusted by online Shoppers
+              La confiance des acheteurs en ligne
               </span>
               <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
+                Plus de 5 millions d utilisateur par jours
             </p>
           </div>
           <div className="flex items-center justify-between mt-10">
@@ -138,7 +138,7 @@ const SignIn = () => {
                 {/* Email */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Work Email
+                    Email
                   </p>
                   <input
                     onChange={handleEmail}

@@ -1,5 +1,9 @@
 var produitModel = require('../models/Produit');
 
+module.exports.getProduitByIdFromDBService = (id) => {
+  return produitModel.findById(id).exec();
+}
+
 module.exports.getProduitFromDBService = () => {
   return produitModel.find({}).exec();
 }

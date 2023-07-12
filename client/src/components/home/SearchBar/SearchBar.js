@@ -11,6 +11,17 @@ const SearchBar = ({ handleCategoryClick }) => {
   const [produits, setProduits] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const navigate = useNavigate();
+
+  const handleSearchResultClick = (item) => {
+    navigate(`/produit/${item._id}`, {
+      state: {
+        item: item,
+      },
+    });
+    setShowSearchBar(true);
+    setSearchQuery("");
+  };
 
   useEffect(() => {
     load();
@@ -18,7 +29,7 @@ const SearchBar = ({ handleCategoryClick }) => {
 
   async function load() {
     try {
-      const result = await axios.get("http://localhost:3002/user/getAll");
+      const result = await axios.get("http://localhost:3002/produit");
       const categories = result.data.data.map((produit) =>
         produit.categorie.toLowerCase()
       );
@@ -33,7 +44,7 @@ const SearchBar = ({ handleCategoryClick }) => {
   async function selectCategory(category) {
     setSelectedCategory(category);
     try {
-      const result = await axios.get("http://localhost:3002/user/getAll");
+      const result = await axios.get("http://localhost:3002/produit");
       const filteredProducts = result.data.data.filter(
         (produit) =>
           produit.categorie.toLowerCase() === category.toLowerCase()
@@ -47,7 +58,6 @@ const SearchBar = ({ handleCategoryClick }) => {
 
   const [show, setShow] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  const navigate = useNavigate();
   const ref = useRef();
   useEffect(() => {
     document.body.addEventListener("click", (e) => {
@@ -66,7 +76,7 @@ const SearchBar = ({ handleCategoryClick }) => {
     setSearchQuery(e.target.value);
     try {
       const result = await axios.get(
-        `http://localhost:3002/produit/getAll?searchQuery=${e.target.value}`
+        `http://localhost:3002/produit?searchQuery=${e.target.value}`
       );
       const filteredProducts = result.data.data.filter((item) =>
         item.name.toLowerCase().includes(e.target.value.toLowerCase())
@@ -92,16 +102,8 @@ const SearchBar = ({ handleCategoryClick }) => {
         <div className={`w-full mx-auto h-96 bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}>
           {filteredProducts.map((item) => (
             <div
-              onClick={() =>
-                navigate(`/product/${item.productName.toLowerCase().split(" ").join("")}`, {
-                  state: {
-                    item: item,
-                  },
-                }) &
-                setShowSearchBar(true) &
-                setSearchQuery("")
-              }
-              key={item._id}
+            onClick={() => handleSearchResultClick(item)}
+            key={item._id}
               className="max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3"
             >
               <img
@@ -115,7 +117,7 @@ const SearchBar = ({ handleCategoryClick }) => {
                 <p className="text-sm">
                   Price:{" "}
                   <span className="text-primeColor font-semibold">
-                    ${item.prix}
+                    Ar {item.prix}
                   </span>
                 </p>
               </div>

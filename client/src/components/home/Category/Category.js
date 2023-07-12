@@ -13,7 +13,7 @@ const Category = ({ handleCategoryClick }) => {
 
   async function loadProduits() {
     try {
-      const result = await axios.get("http://localhost:3002/produit/getAll");
+      const result = await axios.get("http://localhost:3002/produit");
       const categories = result.data.data.map(
         (produit) => produit.categorie.toLowerCase()
       );
@@ -32,7 +32,7 @@ const Category = ({ handleCategoryClick }) => {
 
   const [show, setShow] = useState(false);
   const ref = useRef();
-  useEffect(() => {
+  useEffect(() => {  
     document.body.addEventListener("click", (e) => {
       if (ref.current.contains(e.target)) {
         setShow(true);
